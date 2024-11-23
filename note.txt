@@ -1,0 +1,18 @@
+https://github.com/chriskacerguis/codeigniter-restserver
+
+composer require chriskacerguis/codeigniter-restserver
+
+After that you will see a "/project/vendor" folder, which holds all the required files, now go inside vendor folder and copy, "vendor/chriskacerguis/codeigniter-restserver/src/rest.php to application/config/rest.php"
+if your vendor located at root folder of your project use this.
+$config['composer_autoload'] = FCPATH . 'vendor/autoload.php';
+but, if your vendor located inside 'application' folder, use this
+$config['composer_autoload'] = TRUE;
+
+REST Key
+Read documentation in rest.php
+if you use key, see at rest.php $config['rest_key_name'] to see key name and throw based column in table key
+
+Limit
+Read documentation in rest.php
+
+https://docs.guzzlephp.org/en/stable/overview.html#installation
