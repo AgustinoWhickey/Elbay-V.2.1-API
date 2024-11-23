@@ -4,6 +4,7 @@ class User_model extends CI_Model
 {
     public function getUsers()
     {
+        $this->db->select('*, user.id as userid');
 		$this->db->where('role_id !=', 1);
         $this->db->join('user_role','user_role.id = user.role_id');
         return $this->db->get('user')->result();
@@ -23,11 +24,8 @@ class User_model extends CI_Model
 	
 	public function updateuser($data)
 	{
-
 		$this->db->update('user', $data, ['id' => $data['id']]);
-
 		return $this->db->affected_rows() == 1;
-	
 	}
 	
 	
