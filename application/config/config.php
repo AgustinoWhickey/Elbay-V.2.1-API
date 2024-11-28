@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/Elbay/Elbay-V.1.2/api/';
+$config['base_url'] = 'http://localhost/elbay/Elbay-V.2.1-API/';
 
 /*
 |--------------------------------------------------------------------------
