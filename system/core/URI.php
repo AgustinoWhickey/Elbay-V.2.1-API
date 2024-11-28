@@ -48,6 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/libraries/uri.html
  */
+
+#[\AllowDynamicProperties]
 class CI_URI {
 
 	/**
@@ -637,7 +639,7 @@ class CI_URI {
 	 */
 	public function ruri_string()
 	{
-		return ltrim(load_class('Router', 'core')->directory, '/').implode('/', $this->rsegments);
+		return ltrim((string) load_class('Router', 'core')->directory, '/').implode('/', $this->rsegments);
 	}
 
 }
