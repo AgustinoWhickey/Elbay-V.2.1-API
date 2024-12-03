@@ -14,7 +14,7 @@ class Cart extends RestController
         $this->load->model('product_item_model');
 		$this->load->model('item_model');
 		$this->load->model('item_menu_model');
-		$this->load->model('login_model');
+		$this->load->model('Auth_model');
 		$this->load->model('category_model');
 		$this->load->model('sale_model');
 		$this->load->model('cart_model');
@@ -27,7 +27,7 @@ class Cart extends RestController
 			$data['cart'] 	= $this->cart_model->getCart($id);
 		}
 		$data['invoice'] 	= $this->sale_model->getInvoice();
-		$data['user'] 		= $this->login_model->ceklogin($this->get('email'));
+		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
 		$data['items'] 		= $this->product_item_model->getItems();
 		$data['category'] 	= $this->category_model->getCategories();
 

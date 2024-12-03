@@ -14,7 +14,7 @@ class Product extends RestController
         $this->load->model('product_item_model');
 		$this->load->model('item_model');
 		$this->load->model('item_menu_model');
-		$this->load->model('login_model');
+		$this->load->model('Auth_model');
 		$this->load->model('category_model');
     }
 

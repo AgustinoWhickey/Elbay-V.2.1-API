@@ -11,7 +11,7 @@ class Stock extends RestController
     public function __construct()
     {
         parent::__construct();
-		$this->load->model('login_model');
+		$this->load->model('Auth_model');
 		$this->load->model('stock_model');
 		$this->load->model('item_model');
 		$this->load->model('supplier_model');
@@ -28,7 +28,7 @@ class Stock extends RestController
 		$data['stocks'] 	= $this->stock_model->getStockItemIns();
 		$data['unititems'] 	= $this->item_model->getItems();
 		$data['suppliers'] 	= $this->supplier_model->getSuppliers();
-		$data['user'] 		= $this->login_model->ceklogin($this->get('email'));
+		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
 			$this->response( [

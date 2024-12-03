@@ -12,7 +12,7 @@ class Branch extends RestController
     {
         parent::__construct();
         $this->load->model("branch_model");
-        $this->load->model("login_model");
+        $this->load->model("Auth_model");
     }
 
     public function index_get()
@@ -23,7 +23,7 @@ class Branch extends RestController
 		} else {
 			$data['branch'] = $this->branch_model->getBranch($id);
 		}
-        $data['user'] = $this->login_model->ceklogin($this->get('email'));
+        $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
 			$this->response( [

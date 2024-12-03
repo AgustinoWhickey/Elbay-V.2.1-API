@@ -11,7 +11,7 @@ class User extends RestController
     public function __construct()
     {
         parent::__construct();
-		$this->load->model('login_model');
+		$this->load->model('Auth_model');
 		$this->load->model('user_model');
     }
 
@@ -22,7 +22,7 @@ class User extends RestController
 			$data['oneuser'] 		= $this->user_model->getUser($id);
 		}
 		$data['users'] 		= $this->user_model->getUsers();
-		$data['user'] 		= $this->login_model->ceklogin($this->get('email'));
+		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
 			$this->response( [

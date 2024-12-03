@@ -13,7 +13,7 @@ class ItemMenu extends RestController
         parent::__construct();
 		$this->load->model('item_model');
 		$this->load->model('item_menu_model');
-		$this->load->model('login_model');
+		$this->load->model('Auth_model');
 		$this->load->model('category_model');
     }
 
@@ -25,7 +25,7 @@ class ItemMenu extends RestController
 		} else {
 			$data['items'] = $this->item_model->getItem($id);
 		}
-        $data['user'] = $this->login_model->ceklogin($this->get('email'));
+        $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
 			$this->response( [

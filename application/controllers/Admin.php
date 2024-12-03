@@ -12,7 +12,7 @@ class Admin extends RestController
     {
         parent::__construct();
         $this->load->model("admin_model");
-        $this->load->model("login_model");
+        $this->load->model("Auth_model");
     }
 
     public function index_get()
@@ -20,7 +20,7 @@ class Admin extends RestController
         $status = $this->get('status');
         
         $detail['sales'] = $this->admin_model->detailSales($status);
-        $detail['user'] = $this->login_model->ceklogin($this->get('email'));
+        $detail['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
 		if($status){
 			$this->response( [

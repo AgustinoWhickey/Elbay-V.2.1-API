@@ -14,7 +14,7 @@ class UserBranch extends RestController
         $this->load->model("user_branch_model");
 		$this->load->model("branch_model");
 		$this->load->model("user_model");
-        $this->load->model("login_model");
+        $this->load->model("Auth_model");
     }
 
     public function index_get()
@@ -27,7 +27,7 @@ class UserBranch extends RestController
 		} else {
 			$data['userbranch'] = $this->user_branch_model->getUserBranch($id);
 		}
-        $data['user'] = $this->login_model->ceklogin($this->get('email'));
+        $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
 			$this->response( [

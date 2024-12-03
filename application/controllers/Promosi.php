@@ -15,7 +15,7 @@ class Promosi extends RestController
         parent::__construct();
         $this->load->model("promosi_model");
         $this->load->model("product_item_model");
-        $this->load->model("login_model");
+        $this->load->model("Auth_model");
     }
 
     public function index_get()
@@ -28,7 +28,7 @@ class Promosi extends RestController
 		} else {
 			$data['promo'] = $this->promosi_model->getPromo($id);
 		}
-        $data['user'] = $this->login_model->ceklogin($this->get('email'));
+        $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
 			$this->response( [

@@ -6,12 +6,13 @@ require APPPATH . 'libraries/RestController.php';
 require APPPATH . 'libraries/Format.php';
 use chriskacerguis\RestServer\RestController;
 
-class Login extends RestController
+class Register extends RestController
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model("Auth_model");
+        $this->load->model("Company_model");
     }
 
     public function index_post()

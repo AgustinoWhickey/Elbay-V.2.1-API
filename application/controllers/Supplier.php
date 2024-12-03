@@ -11,7 +11,7 @@ class Supplier extends RestController
     public function __construct()
     {
         parent::__construct();
-		$this->load->model('login_model');
+		$this->load->model('Auth_model');
 		$this->load->model('supplier_model');
     }
 
@@ -22,7 +22,7 @@ class Supplier extends RestController
 			$data['supplier'] 		= $this->supplier_model->getSupplier($id);
 		}
 		$data['suppliers'] 	= $this->supplier_model->getSuppliers();
-		$data['user'] 		= $this->login_model->ceklogin($this->get('email'));
+		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
 			$this->response( [

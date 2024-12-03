@@ -14,7 +14,7 @@ class Item extends RestController
         $this->load->model('product_item_model');
 		$this->load->model('item_model');
 		$this->load->model('item_menu_model');
-		$this->load->model('login_model');
+		$this->load->model('Auth_model');
 		$this->load->model('category_model');
     }
 
@@ -26,7 +26,7 @@ class Item extends RestController
 			$data['onemenuitem'] 	= $this->item_menu_model->getMenuItem($id);
 		}
 		$data['unititems'] 	= $this->item_model->getItems();
-		$data['user'] 		= $this->login_model->ceklogin($this->get('email'));
+		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
 		$data['items'] 		= $this->product_item_model->getItems();
 		$data['category'] 	= $this->category_model->getCategories();
 
