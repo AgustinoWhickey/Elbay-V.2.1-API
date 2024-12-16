@@ -2,10 +2,11 @@
 
 class User_model extends CI_Model
 {
-    public function getUsers()
+    public function getUsers($companyid)
     {
         $this->db->select('*, user.id as userid');
 		$this->db->where('role_id !=', 1);
+		$this->db->where('company_id =', $companyid);
         $this->db->join('user_role','user_role.id = user.role_id');
         return $this->db->get('user')->result();
     }
