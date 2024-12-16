@@ -11,7 +11,7 @@ class Branch extends RestController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("branch_model");
+        $this->load->model("Branch_model");
         $this->load->model("Auth_model");
     }
 
@@ -19,9 +19,9 @@ class Branch extends RestController
 	{
         $id = $this->get('id');
 		if($id === null){
-			$data['branches'] = $this->branch_model->getBranches();
+			$data['branches'] = $this->Branch_model->getBranches();
 		} else {
-			$data['branch'] = $this->branch_model->getBranch($id);
+			$data['branch'] = $this->Branch_model->getBranch($id);
 		}
         $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
@@ -43,13 +43,14 @@ class Branch extends RestController
 	{
         if($this->post('name') != ''){
 			$data = [
+				'company_id' => htmlspecialchars($this->post('company_id',true)),
 				'name' => htmlspecialchars($this->post('name',true)),
 				'phone' => htmlspecialchars($this->post('phone',true)),
 				'address' => htmlspecialchars($this->post('address',true)),
 				'description' => htmlspecialchars($this->post('description',true)),
 				'created' => time()
 			];
-            $this->branch_model->insertbranch($data);
+            $this->Branch_model->insertbranch($data);
 			$this->response( [
                 'status' => true,
                 'data' => $data
@@ -71,7 +72,7 @@ class Branch extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST );
 		} else {
-			if($this->branch_model->deleteBranch($id)){
+			if($this->Branch_model->deleteBranch($id)){
 				$this->response( [
 	                'status' => true,
 	                'id' => $id,
@@ -97,7 +98,7 @@ class Branch extends RestController
             'updated' => time()
         ];
 
-    	if($this->branch_model->updatebranch($data)){
+    	if($this->Branch_model->updatebranch($data)){
     		$this->response( [
                 'status' => true,
                 'message' => 'Data has been updated!'
