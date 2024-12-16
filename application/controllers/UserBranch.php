@@ -11,21 +11,22 @@ class UserBranch extends RestController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("user_branch_model");
-		$this->load->model("branch_model");
-		$this->load->model("user_model");
+        $this->load->model("User_branch_model");
+		$this->load->model("Branch_model");
+		$this->load->model("User_model");
         $this->load->model("Auth_model");
     }
 
     public function index_get()
 	{
         $id = $this->get('id');
+        $companyid = $this->get('company_id');
 		if($id === null){
-			$data['branches'] = $this->branch_model->getBranches();
-			$data['users'] = $this->user_model->getUsers();
-			$data['userbranches'] = $this->user_branch_model->getUserBranches();
+			$data['branches'] = $this->Branch_model->getBranches();
+			$data['users'] = $this->User_model->getUsers($companyid);
+			$data['userbranches'] = $this->User_branch_model->getUserBranches();
 		} else {
-			$data['userbranch'] = $this->user_branch_model->getUserBranch($id);
+			$data['userbranch'] = $this->User_branch_model->getUserBranch($id);
 		}
         $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
@@ -46,11 +47,11 @@ class UserBranch extends RestController
     public function index_post()
 	{
 		$data = [
-			'user_id' => htmlspecialchars($this->post('user',true)),
+			'user_id' => htmlspecialchars($this->post('pegawai',true)),
 			'branch_id' => htmlspecialchars($this->post('cabang',true)),
 			'created' => time()
 		];
-		$this->user_branch_model->insertuserbranch($data);
+		$this->User_branch_model->insertuserbranch($data);
 		$this->response( [
 			'status' => true,
 			'data' => $data
@@ -66,7 +67,7 @@ class UserBranch extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST );
 		} else {
-			if($this->user_branch_model->deleteUserbranch($id)){
+			if($this->User_branch_model->deleteUserbranch($id)){
 				$this->response( [
 	                'status' => true,
 	                'id' => $id,
@@ -85,12 +86,12 @@ class UserBranch extends RestController
 	{
 		$data = [
             'id' => $this->put('userbranch_id'),
-            'user_id' => htmlspecialchars($this->put('user',true)),
+            'user_id' => htmlspecialchars($this->put('pegawai',true)),
 			'branch_id' => htmlspecialchars($this->put('cabang',true)),
             'updated' => time()
         ];
 
-    	if($this->user_branch_model->updateuserbranch($data)){
+    	if($this->User_branch_model->updateuserbranch($data)){
     		$this->response( [
                 'status' => true,
                 'message' => 'Data has been updated!'
