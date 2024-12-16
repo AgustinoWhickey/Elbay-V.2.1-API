@@ -5,9 +5,9 @@ class Auth_model extends CI_Model
 
     public function ceklogin($email)
     {
-        $this->db->select('user.id, user.name as username, user.email, user.password, user.role_id, user.is_active, company.name as company_name, company.logo');
+        $this->db->select('user.id, user.name as username, user.email, user.password, user.role_id, user.is_active, company.name as company_name, company.id as company_id, company.logo, company.address');
         $this->db->where('user.email', $email);
-        $this->db->join('company', 'user.id = company.pic_id');
+        $this->db->join('company', 'user.company_id = company.id');
         $aksi = $this->db->get('user')->result_array();
         return $aksi;
     }
