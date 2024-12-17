@@ -12,16 +12,16 @@ class Supplier extends RestController
     {
         parent::__construct();
 		$this->load->model('Auth_model');
-		$this->load->model('supplier_model');
+		$this->load->model('Supplier_model');
     }
 
     public function index_get()
 	{
         $id = $this->get('id');
 		if($id != null){
-			$data['supplier'] 		= $this->supplier_model->getSupplier($id);
+			$data['supplier'] 		= $this->Supplier_model->getSupplier($id);
 		}
-		$data['suppliers'] 	= $this->supplier_model->getSuppliers();
+		$data['suppliers'] 	= $this->Supplier_model->getSuppliers();
 		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
@@ -47,7 +47,7 @@ class Supplier extends RestController
 				'address' => $this->post('address',true),
 				'description' => $this->post('description'),
 			];
-            $result = $this->supplier_model->insertsupplier($data);
+            $result = $this->Supplier_model->insertsupplier($data);
 			$this->response( [
                 'status' => true,
                 'data' => $result
@@ -69,7 +69,7 @@ class Supplier extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST );
 		} else {
-			if($this->supplier_model->deleteSupplier($id)){
+			if($this->Supplier_model->deleteSupplier($id)){
 				$this->response( [
 	                'status' => true,
 	                'id' => $id,
@@ -96,7 +96,7 @@ class Supplier extends RestController
 				'updated' => time()
 			];
 
-			if($this->supplier_model->updatesupplier($data)){
+			if($this->Supplier_model->updatesupplier($data)){
 				$this->response( [
 					'status' => true,
 					'message' => 'Data has been updated!'
