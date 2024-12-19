@@ -29,10 +29,6 @@ class Category_model extends CI_Model
 
     public function updatecategory($data)
 	{
-		$arr = [
-			'nama' => $data['nama'],
-		];
-
 		$this->db->update('product_category', $data, ['id' => $data['id']]);
 
 		return $this->db->affected_rows() == 1;

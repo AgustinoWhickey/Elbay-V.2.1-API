@@ -11,7 +11,7 @@ class Category extends RestController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("category_model");
+        $this->load->model("Category_model");
         $this->load->model("Auth_model");
     }
 
@@ -19,9 +19,9 @@ class Category extends RestController
 	{
         $id = $this->get('id');
 		if($id === null){
-			$data['categories'] = $this->category_model->getCategories();
+			$data['categories'] = $this->Category_model->getCategories();
 		} else {
-			$data['categories'] = $this->category_model->getCategory($id);
+			$data['category'] = $this->Category_model->getCategory($id);
 		}
         $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
@@ -41,12 +41,13 @@ class Category extends RestController
 
     public function index_post()
 	{
-        if($this->post('nama') != ''){
+        if($this->post('name') != ''){
 			$data = [
-				'nama' => htmlspecialchars($this->post('nama',true)),
+				'name' => htmlspecialchars($this->post('name',true)),
+				'description' => htmlspecialchars($this->post('description',true)),
 				'created' => time()
 			];
-            $this->category_model->insertcategory($data);
+            $this->Category_model->insertcategory($data);
 			$this->response( [
                 'status' => true,
                 'data' => $data
@@ -68,7 +69,7 @@ class Category extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST );
 		} else {
-			if($this->category_model->deleteCategory($id)){
+			if($this->Category_model->deleteCategory($id)){
 				$this->response( [
 	                'status' => true,
 	                'id' => $id,
@@ -87,11 +88,12 @@ class Category extends RestController
 	{
 		$data = [
             'id' => $this->put('category_id'),
-            'nama' => htmlspecialchars($this->put('nama',true)),
+            'name' => htmlspecialchars($this->put('name',true)),
+            'description' => htmlspecialchars($this->put('description',true)),
             'updated' => time()
         ];
 
-    	if($this->category_model->updatecategory($data)){
+    	if($this->Category_model->updatecategory($data)){
     		$this->response( [
                 'status' => true,
                 'message' => 'Data has been updated!'
