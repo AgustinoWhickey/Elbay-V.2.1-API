@@ -11,24 +11,24 @@ class Item extends RestController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('product_item_model');
-		$this->load->model('item_model');
-		$this->load->model('item_menu_model');
+        $this->load->model('Product_item_model');
+		$this->load->model('Item_model');
+		$this->load->model('Item_menu_model');
 		$this->load->model('Auth_model');
-		$this->load->model('category_model');
+		$this->load->model('Category_model');
     }
 
     public function index_get()
 	{
         $id = $this->get('id');
 		if($id != null){
-			$data['oneitem'] 		= $this->product_item_model->getItem($id);
-			$data['onemenuitem'] 	= $this->item_menu_model->getMenuItem($id);
+			$data['oneitem'] 		= $this->Item_model->getItem($id);
+			$data['onemenuitem'] 	= $this->Item_menu_model->getMenuItem($id);
 		}
-		$data['unititems'] 	= $this->item_model->getItems();
+		$data['unititems'] 	= $this->Item_model->getItems();
 		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
-		$data['items'] 		= $this->product_item_model->getItems();
-		$data['category'] 	= $this->category_model->getCategories();
+		$data['items'] 		= $this->Product_item_model->getItems();
+		$data['category'] 	= $this->Category_model->getCategories();
 
 		if($data){
 			$this->response( [
@@ -46,18 +46,16 @@ class Item extends RestController
 
     public function index_post()
 	{
-        if($this->post('nama') != ''){
+        if($this->post('name') != ''){
 			$data = [
-				'barcode' => $this->post('barcode',true),
-				'name' => $this->post('nama',true),
-				'category_id' => (int)$this->post('kategori',true),
-				'unit_id' => null,
-				'price' => (int)$this->post('harga',true),
-				'stock' => (int)$this->post('stock'),
+				'name' => $this->post('name',true),
+				'unit' => $this->post('satuan',true),
+				'unit_price' => $this->post('harga_satuan',true),
 				'image' => $this->post('image'),
+				'expired_date ' => $this->post('expired'),
 				'created' => time()
 			];
-            $result = $this->product_item_model->insertitem($data);
+            $result = $this->Item_model->insertitem($data);
 			$this->response( [
                 'status' => true,
                 'data' => $result
@@ -79,7 +77,7 @@ class Item extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST );
 		} else {
-			if($this->product_item_model->deleteItem($id)){
+			if($this->Item_model->deleteItem($id)){
 				$this->response( [
 	                'status' => true,
 	                'id' => $id,
@@ -96,33 +94,19 @@ class Item extends RestController
 
     public function index_put()
 	{
-		if($this->put('item_id') == null){
+		if($this->put('item_id') != ''){
+			
 			$data = [
-				'id' => $this->put('id',true),
-				'barcode' => $this->put('barcode',true),
-				'name' => $this->put('nama',true),
-				'category_id' => (int)$this->put('kategori',true),
-				'unit_id' => null,
-				'price' => (int)$this->put('harga',true),
-				'stock' => (int)$this->put('stock'),
+				'id' => $this->put('item_id',true),
+				'name' => $this->put('name',true),
+				'unit' => $this->put('satuan',true),
+				'unit_price' => $this->put('harga_satuan',true),
 				'image' => $this->put('image'),
+				'expired_date' => $this->put('expired'),
 				'updated' => time()
 			];
 
-			if($this->product_item_model->updateitem($data)){
-				$this->response( [
-					'status' => true,
-					'message' => 'Data has been updated!'
-				], RestController::HTTP_OK );
-			} 
-		} else if($this->put('item_id') != null) {
-			$data = [
-				'item_id' => $this->put('item_id',true),
-				'qty' => $this->put('qty',true),
-				'updated' => time()
-			];
-
-			if($this->product_item_model->updatestockout($data)){
+			if($this->Item_model->updateitem($data)){
 				$this->response( [
 					'status' => true,
 					'message' => 'Data has been updated!'

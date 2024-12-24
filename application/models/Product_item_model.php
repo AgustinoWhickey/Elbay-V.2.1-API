@@ -4,7 +4,7 @@ class Product_Item_model extends CI_Model
 {
     public function getItems()
     {
-        $this->db->select('product_item.*, product_category.nama as category_name');
+        $this->db->select('product_item.*, product_category.name as category_name');
         $this->db->from('product_item');
         $this->db->join('product_category','product_category.id = product_item.category_id');
         return $this->db->get()->result();
