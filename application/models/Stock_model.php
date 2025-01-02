@@ -5,10 +5,10 @@ class Stock_model extends CI_Model
 
     public function getStocks()
     {
-        $this->db->select('stock.*, product_category.nama as category_name, product_item.name as item_name, user.name as user_name');
+        $this->db->select('stock.*, user.name as user_name, item.name as item_name, item.id as item_id, supplier.name as supplier_name, supplier.id as supplier_id');
         $this->db->from('stock');
-        $this->db->join('product_item','product_item.id = stock.item_id');
-        $this->db->join('product_category','product_category.id = product_item.category_id','left');
+        $this->db->join('item','item.id = stock.item_id');
+        $this->db->join('supplier','supplier.id = stock.supplier_id', 'left');
         $this->db->join('user','user.id = stock.user_id');
 
         return $this->db->get()->result();
@@ -68,6 +68,12 @@ class Stock_model extends CI_Model
 		return $this->db->affected_rows();
     }
 
+    public function deleteStock($id)
+    {
+		$aksi = $this->db->where('id', $id)->delete('stock');
+		return $this->db->affected_rows();
+    }
+
     public function getStock($idstock)
     {
         $this->db->select('*');
@@ -107,6 +113,14 @@ class Stock_model extends CI_Model
         $sql = "UPDATE product_item SET stock = stock - '$qty' WHERE id = '$id'";
 
         $this->db->query($sql);
+
+		return $this->db->affected_rows() == 1;
+	
+	}
+
+    public function updatestock($data)
+	{
+		$this->db->update('stock', $data, ['id' => $data['id']]);
 
 		return $this->db->affected_rows() == 1;
 	
