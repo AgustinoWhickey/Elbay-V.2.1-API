@@ -12,22 +12,22 @@ class Stock extends RestController
     {
         parent::__construct();
 		$this->load->model('Auth_model');
-		$this->load->model('stock_model');
-		$this->load->model('item_model');
-		$this->load->model('supplier_model');
+		$this->load->model('Stock_model');
+		$this->load->model('Item_model');
+		$this->load->model('Supplier_model');
 		$this->load->model('product_item_model');
     }
 
     public function index_get()
 	{
         $id = $this->get('id');
-		if($id != null){
-			$data['supplier'] 		= $this->supplier_model->getSupplier($id);
+		if($id === null){
+			$data['stocks'] = $this->Stock_model->getStocks();
+		} else {
+			$data['stock'] = $this->Stock_model->getStock($id);
 		}
-		$data['items'] 	    = $this->product_item_model->getItems();
-		$data['stocks'] 	= $this->stock_model->getStockItemIns();
-		$data['unititems'] 	= $this->item_model->getItems();
-		$data['suppliers'] 	= $this->supplier_model->getSuppliers();
+		$data['unititems'] 	= $this->Item_model->getItems();
+		$data['suppliers'] 	= $this->Supplier_model->getSuppliers();
 		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
@@ -52,15 +52,12 @@ class Stock extends RestController
 				'type' => 'in',
 				'detail' => $this->post('detail',true),
 				'supplier_id' => $this->post('supplier_id',true),
-				'unit' => $this->post('unit',true),
-				'unit_qty' => $this->post('unit_qty',true),
-				'unit_price' => $this->post('unit_price',true),
-				'item_qty' => $this->post('item_qty',true),
+				'qty' => $this->post('qty',true),
 				'user_id' => $this->post('user_id',true),
 				'date' => $this->post('date',true),
 				'created' => time()
 			];
-            $result = $this->stock_model->insertstockitem($data);
+            $result = $this->Stock_model->insertstock($data);
 			$this->response( [
                 'status' => true,
                 'data' => $result
@@ -73,6 +70,33 @@ class Stock extends RestController
 		}
     }
 
+	public function index_put()
+	{
+		$data = [
+			'id' => $this->put('stock_id',true),
+			'item_id' => $this->put('item_id',true),
+			'type' => 'in',
+			'detail' => $this->put('detail',true),
+			'supplier_id' => $this->put('supplier_id',true),
+			'qty' => $this->put('qty',true),
+			'user_id' => $this->put('user_id',true),
+			'date' => $this->put('date',true),
+			'updated' => time()
+		];
+
+    	if($this->Stock_model->updatestock($data)){
+    		$this->response( [
+                'status' => true,
+                'message' => 'Data has been updated!'
+            ], RestController::HTTP_OK );
+        } else {
+        	$this->response( [
+                'status' => true,
+                'message' => 'Update Failed!'
+            ], RestController::HTTP_NOT_FOUND );
+        }
+	}
+
     public function index_delete()
 	{
 		$id = $this->delete('id');
@@ -82,7 +106,7 @@ class Stock extends RestController
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST );
 		} else {
-			if($this->stock_model->deleteStockItem($id)){
+			if($this->Stock_model->deleteStock($id)){
 				$this->response( [
 	                'status' => true,
 	                'id' => $id,
