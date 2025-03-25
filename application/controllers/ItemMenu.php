@@ -11,20 +11,23 @@ class ItemMenu extends RestController
     public function __construct()
     {
         parent::__construct();
-		$this->load->model('item_model');
-		$this->load->model('item_menu_model');
+		$this->load->model('Item_model');
+		$this->load->model('Item_menu_model');
 		$this->load->model('Auth_model');
-		$this->load->model('category_model');
+		$this->load->model('Stock_model');
+		$this->load->model('Category_model');
     }
 
     public function index_get()
 	{
         $id = $this->get('id');
 		if($id === null){
-			$data['items'] = $this->item_model->getItems();
+			$data['item_menus'] = $this->Item_menu_model->getMenuItems();
 		} else {
-			$data['items'] = $this->item_model->getItem($id);
+			$data['item_menus'] = $this->Item_menu_model->getMenuItem($id);
 		}
+		$data['stocks'] = $this->Stock_model->getStocks();
+		$data['items'] = $this->Item_model->getItems();
         $data['user'] = $this->Auth_model->ceklogin($this->get('email'));
 
 		if($data){
@@ -43,16 +46,14 @@ class ItemMenu extends RestController
 
     public function index_post()
 	{
-        if($this->post('name') != ''){
+        if($this->post('product_id') != ''){
 			$data = [
-				'name' => $this->post('name',true),
-				'unit' => $this->post('unit',true),
-				'unit_price' => $this->post('unit_price',true),
-				'stock' => $this->post('stock',true),
-				'image' => $this->post('image',true),
+				'product_id' => $this->post('product_id',true),
+				'item_id' => $this->post('item_id',true),
+				'qty' => $this->post('qty',true),
 				'created' => time()
 			];
-            $this->item_model->insertitem($data);
+            $this->Item_menu_model->insertmenuitem($data);
 			$this->response( [
                 'status' => true,
                 'data' => $data
@@ -67,14 +68,14 @@ class ItemMenu extends RestController
 
     public function index_delete()
 	{
-		$id = $this->delete('id');
+		$id = $this->delete('product_id');
 		if($id === null){
 			$this->response( [
                 'status' => false,
                 'message' => 'Provide an id!'
             ], RestController::HTTP_BAD_REQUEST );
 		} else {
-			if($this->item_model->deleteItem($id)){
+			if($this->Item_menu_model->deleteMenuItem($id)){
 				$this->response( [
 	                'status' => true,
 	                'id' => $id,
@@ -92,16 +93,14 @@ class ItemMenu extends RestController
     public function index_put()
 	{
 		$data = [
-            'id' => $this->put('id'),
-            'name' => $this->put('name',true),
-			'unit' => $this->put('unit',true),
-			'unit_price' => $this->put('unit_price',true),
-			'stock' => $this->put('stock',true),
-			'image' => $this->put('image',true),
-            'updated' => time()
-        ];
+			'id' => $this->put('id'),
+			'product_id' => $this->put('product_id',true),
+			'item_id' => $this->put('item_id',true),
+			'qty' => $this->put('qty',true),
+			'updated' => time()
+		];
 
-    	if($this->item_model->updateitem($data)){
+    	if($this->Item_menu_model->updatemenuitem($data)){
     		$this->response( [
                 'status' => true,
                 'message' => 'Data has been updated!'
