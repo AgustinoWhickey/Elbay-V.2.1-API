@@ -26,6 +26,10 @@ class ItemMenu extends RestController
 		} else {
 			$data['item_menus'] = $this->Item_menu_model->getMenuItem($id);
 		}
+		$iditem = $this->get('iditem');
+		if($iditem !== null){
+			$data['item_by_itemid'] = $this->Item_menu_model->getItemMenu($iditem);
+		}
 		$data['stocks'] = $this->Stock_model->getStocks();
 		$data['items'] = $this->Item_model->getItems();
         $data['user'] = $this->Auth_model->ceklogin($this->get('email'));

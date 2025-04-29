@@ -22,8 +22,8 @@ class Item extends RestController
 	{
         $id = $this->get('id');
 		if($id != null){
-			$data['oneitem'] 		= $this->Item_model->getItem($id);
-			$data['onemenuitem'] 	= $this->Item_menu_model->getMenuItem($id);
+			$data['oneitem'] 	= $this->Item_model->getItem($id);
+			$data['item'] 		= $this->Product_item_model->getItem($id);
 		}
 		$data['unititems'] 	= $this->Item_model->getItems();
 		$data['user'] 		= $this->Auth_model->ceklogin($this->get('email'));

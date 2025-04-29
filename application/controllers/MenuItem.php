@@ -100,30 +100,68 @@ class MenuItem extends RestController
 
     public function index_put()
 	{
-		$data = [
-			'id' => $this->put('menu_id'),
-			'name' => htmlspecialchars($this->put('name')),
-			'code' => htmlspecialchars($this->put('code')),
-			'category_id' => htmlspecialchars($this->put('category_id')),
-			'unit_id' => '',
-			'price' => htmlspecialchars($this->put('price')),
-			'use_item' => htmlspecialchars($this->put('use_item')),
-			'stock' => htmlspecialchars($this->put('stock')),
-			'image' => htmlspecialchars($this->put('image')),
-			'expired_date' => htmlspecialchars($this->put('expired_date')),
-			'updated' => time(),
-		];
+		if($this->put('type') == 'stockout'){
+			$data = [
+				'item_id' => $this->put('id'),
+				'qty' => htmlspecialchars($this->put('stock')),
+				'updated' => time(),
+			];
 
-    	if($this->Item_menu_model->updateproductitem($data)){
-    		$this->response( [
-                'status' => true,
-                'message' => 'Data has been updated!'
-            ], RestController::HTTP_OK );
-        } else {
-        	$this->response( [
-                'status' => true,
-                'message' => 'Update Failed!'
-            ], RestController::HTTP_NOT_FOUND );
-        }
+			if($this->Item_menu_model->updatestockout($data)){
+				$this->response( [
+					'status' => true,
+					'message' => 'Data has been updated!'
+				], RestController::HTTP_OK );
+			} else {
+				$this->response( [
+					'status' => true,
+					'message' => 'Update Failed!'
+				], RestController::HTTP_NOT_FOUND );
+			}
+		} else if($this->put('type') == 'update_stock'){
+			$data = [
+				'item_id' => $this->put('id'),
+				'qty' => htmlspecialchars($this->put('stock')),
+				'updated' => time(),
+			];
+
+			if($this->Item_menu_model->updatestock($data)){
+				$this->response( [
+					'status' => true,
+					'message' => 'Stock Data has been updated!'
+				], RestController::HTTP_OK );
+			} else {
+				$this->response( [
+					'status' => true,
+					'message' => 'Update Failed!'
+				], RestController::HTTP_NOT_FOUND );
+			}
+		} else {
+			$data = [
+				'id' => $this->put('menu_id'),
+				'name' => htmlspecialchars($this->put('name')),
+				'code' => htmlspecialchars($this->put('code')),
+				'category_id' => htmlspecialchars($this->put('category_id')),
+				'unit_id' => '',
+				'price' => htmlspecialchars($this->put('price')),
+				'use_item' => htmlspecialchars($this->put('use_item')),
+				'stock' => htmlspecialchars($this->put('stock')),
+				'image' => htmlspecialchars($this->put('image')),
+				'expired_date' => htmlspecialchars($this->put('expired_date')),
+				'updated' => time(),
+			];
+	
+			if($this->Item_menu_model->updateproductitem($data)){
+				$this->response( [
+					'status' => true,
+					'message' => 'Data has been updated!'
+				], RestController::HTTP_OK );
+			} else {
+				$this->response( [
+					'status' => true,
+					'message' => 'Update Failed!'
+				], RestController::HTTP_NOT_FOUND );
+			}
+		}
 	}
 }

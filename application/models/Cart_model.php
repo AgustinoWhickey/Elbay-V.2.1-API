@@ -4,7 +4,7 @@ class Cart_model extends CI_Model
 {
 
     public function getCart($id){
-        $this->db->select('cart.*, product_item.barcode, product_item.name as item_name, cart.price as cart_price');
+        $this->db->select('cart.*, product_item.name as item_name, cart.price as cart_price');
         $this->db->from('cart');
         $this->db->join('product_item', 'cart.item_id = product_item.id');
         $this->db->where('user_id', $id);

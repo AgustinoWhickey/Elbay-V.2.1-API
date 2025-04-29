@@ -11,7 +11,7 @@ class UnitItem extends RestController
     public function __construct()
     {
         parent::__construct();
-		$this->load->model('item_model');
+		$this->load->model('Item_model');
     }
 
     public function index_put()
@@ -21,7 +21,7 @@ class UnitItem extends RestController
 			'qty' => $this->put('qty',true),
 		];
 
-    	if($this->item_model->updateitemstockout($data)){
+    	if($this->Item_model->updateitemstockout($data)){
     		$this->response( [
                 'status' => true,
                 'message' => 'Data has been updated!'

@@ -11,20 +11,20 @@ class SaleDetail extends RestController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('product_item_model');
-		$this->load->model('item_model');
-		$this->load->model('item_menu_model');
+        $this->load->model('Product_item_model');
+		$this->load->model('Item_model');
+		$this->load->model('Item_menu_model');
 		$this->load->model('Auth_model');
-		$this->load->model('category_model');
-		$this->load->model('sale_model');
-		$this->load->model('cart_model');
+		$this->load->model('Category_model');
+		$this->load->model('Sale_model');
+		$this->load->model('Cart_model');
     }
 
     public function index_get()
 	{
 		$id = $this->get('id');
 		if($id != null){
-			$data['saledetail'] 	= $this->sale_model->get_sale_detail($id)->result();
+			$data['saledetail'] 	= $this->Sale_model->get_sale_detail($id)->result();
 		}
 
 		if($data){
@@ -54,7 +54,7 @@ class SaleDetail extends RestController
 				'user_id' => $this->post('user_id',true),
 			];
 
-			$result = $this->sale_model->add_sale_detail($data);
+			$result = $this->Sale_model->add_sale_detail($data);
 			$this->response( [
                 'status' => true,
                 'data' => $result

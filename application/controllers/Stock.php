@@ -49,7 +49,7 @@ class Stock extends RestController
         if($this->post('item_id') != ''){
 			$data = [
 				'item_id' => $this->post('item_id',true),
-				'type' => 'in',
+				'type' => $this->post('type',true),
 				'detail' => $this->post('detail',true),
 				'supplier_id' => $this->post('supplier_id',true),
 				'qty' => $this->post('qty',true),

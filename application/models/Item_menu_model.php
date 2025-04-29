@@ -48,6 +48,15 @@ class Item_menu_model extends CI_Model
         return $aksi;
     }
 
+    public function getItemMenu($iditem)
+    {
+        $this->db->select('*');
+        $this->db->where('item_id', $iditem);
+        $this->db->join('item', 'item.id = menu_item.item_id');
+        $aksi = $this->db->get('menu_item')->result();
+        return $aksi;
+    }
+
     public function updatemenuitem($data)
 	{
 		$this->db->update('menu_item', $data, ['id' => $data['id']]);
@@ -77,6 +86,20 @@ class Item_menu_model extends CI_Model
         $updated = time();
 
         $sql = "UPDATE product_item SET stock = stock + '$qty', updated = '$updated' WHERE id = '$id'";
+
+        $this->db->query($sql);
+
+		return $this->db->affected_rows() == 1;
+	
+	}
+
+    public function updatestock($data)
+	{
+        $qty = $data['qty'];
+        $id = $data['item_id'];
+        $updated = time();
+
+        $sql = "UPDATE product_item SET stock = '$qty', updated = '$updated' WHERE id = '$id'";
 
         $this->db->query($sql);
 
