@@ -156,7 +156,7 @@ class Sale_model extends CI_Model
 
     public function getSale($id = null)
     {
-        $this->db->select('sale.*, user.name as user_name, sale.created as sale_created');
+        $this->db->select('sale.*, user.name as user_name, user.email, sale.created as sale_created');
         $this->db->from('sale');
         $this->db->join('user', 'sale.user_id = user.id');
         if($id != null){
